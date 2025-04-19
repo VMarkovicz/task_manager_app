@@ -1,0 +1,1 @@
+C:\Users\JOHNV\Documents\UTFPR\MobileDev\task_manager_app\android\app\src\main\kotlin\br\com\markovicz\task_manager_app\task_manager_app\MainActivity.kt
