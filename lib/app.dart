@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager_app/authentication/login_page.dart';
 
 class App extends StatelessWidget {
@@ -6,7 +7,7 @@ class App extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return MaterialApp(
+        return GetMaterialApp(
             theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),

@@ -20,11 +20,13 @@ class _HomePageState extends State<HomePage> {
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
+                centerTitle: true,
                 title: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                        Icon(Icons.assignment),
-                        SizedBox(width: 8),
-                        Text('To Do App'), 
+                    Icon(Icons.assignment),
+                    SizedBox(width: 8),
+                    Text('To Do App'),
                     ],
                 ),
             ),

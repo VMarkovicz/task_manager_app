@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager_app/authentication/auth_service.dart';
 import 'package:task_manager_app/authentication/login_page.dart';
 import 'package:task_manager_app/home_page.dart';
@@ -14,17 +14,19 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-    final AuthService _auth = AuthService();
+    final TextEditingController _usernameController = TextEditingController();
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
+                centerTitle: true,
                 title: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                        Icon(Icons.assignment),
-                        SizedBox(width: 8),
-                        Text('To Do App'), 
+                    Icon(Icons.assignment),
+                    SizedBox(width: 8),
+                    Text('To Do App'),
                     ],
                 ),
             ),
@@ -35,6 +37,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                         Text("Create an account"),
                         SizedBox(height: 20),
+                        TextField(
+                            controller: _usernameController,
+                            decoration: InputDecoration(labelText: 'Username'),
+                        ),
                         TextField(
                             controller: _emailController,
                             decoration: InputDecoration(labelText: 'Email'),
@@ -47,39 +53,28 @@ class _RegisterPageState extends State<RegisterPage> {
                         SizedBox(height: 20),
                         ElevatedButton(
                             onPressed: () async {
-                                User? user = await _auth.registerWithEmailAndPassword(
-                                    _emailController.text.trim(),
-                                    _passwordController.text.trim(),
+                                await AuthController.to.register(
+                                    _emailController.text.toString().trim(),
+                                    _passwordController.text.toString().trim(),
+                                    _usernameController.text.toString().trim(),
                                 );
-
-                                if (!mounted) return;
-
-                                if (user != null) {
-                                    Navigator.push(
-                                        context, 
-                                        MaterialPageRoute(builder: (context) => HomePage()),
-                                    );
-                                }
                             },
                             child: Text('Register'),
                         ),
                         TextButton(
                             onPressed: () {
-                                Navigator.push(
-                                    context, 
-                                    MaterialPageRoute(builder: (context) => LoginPage()),
-                                );
+                                Get.off(() => LoginPage());
                             },
                             child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center, // Opcional: alinha os textos verticalmente ao centro
+                                mainAxisAlignment: MainAxisAlignment.center, 
                                 children: <Widget>[
                                 Text(
                                     "Already have an account?",
-                                    textAlign: TextAlign.center, // Opcional: alinha o texto ao centro
+                                    textAlign: TextAlign.center, 
                                 ),
                                 Text(
                                     "Login",
-                                    textAlign: TextAlign.center, // Opcional: alinha o texto ao centro
+                                    textAlign: TextAlign.center,
                                 ),
                                 ],
                             ),
