@@ -8,7 +8,6 @@ class AuthController extends GetxController {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Observables
   Rxn<User?> firebaseUser = Rxn<User?>();
 
   @override

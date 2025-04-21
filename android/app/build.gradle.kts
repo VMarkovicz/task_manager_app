@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "br.com.markovicz.task_manager_app.task_manager_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.0.12077973" // ✅ Corrigido aqui
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -22,7 +22,6 @@ android {
     defaultConfig {
         applicationId = "br.com.markovicz.task_manager_app.task_manager_app"
 
-        // ✅ Corrigido aqui: minSdk exigido pelo Firebase
         minSdk = 23 
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
