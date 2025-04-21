@@ -48,6 +48,25 @@ class _HomePageState extends State<HomePage> {
                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 child: ListTile(
+                    onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                            title: Center(
+                                child: Text(task.title)
+                            ),
+                            content: Center(
+                                child: Text(task.description ?? "Sem descrição")
+                            ),
+                            actions: [
+                                TextButton(
+                                    child: Text('Fechar'),
+                                    onPressed: () => Navigator.of(context).pop(),
+                                ),
+                            ],
+                            ),
+                        );
+                    },
                     leading: Checkbox(
                         value: task.isDone,
                         onChanged: (_) => taskController.toggleDone(task.id!),
