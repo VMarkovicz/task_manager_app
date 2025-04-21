@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../models/task_model.dart';
+import 'task_model.dart';
 
 class TaskController extends ChangeNotifier {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -39,6 +39,22 @@ class TaskController extends ChangeNotifier {
         final doc = await _firestore.collection('tasks').add(task.toMap());
         task.id = doc.id;
         _tasks.add(task);
+        notifyListeners();
+    }
+
+    Future<void> updateTaskById(String taskId, String newTitle, String? newDescription) async {
+        final index = _tasks.indexWhere((task) => task.id == taskId);
+        if (index == -1) return;
+
+        final task = _tasks[index];
+        task.title = newTitle;
+        task.description = newDescription;
+
+        await _firestore.collection('tasks').doc(task.id).update({
+            'title': newTitle,
+            'description': newDescription,
+        });
+
         notifyListeners();
     }
 

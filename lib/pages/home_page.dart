@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:task_manager_app/controller/task_controller.dart';
+import 'package:task_manager_app/pages/add_task_page.dart';
+import 'package:task_manager_app/pages/edit_task_page.dart';
+import 'package:task_manager_app/task_management/task_controller.dart';
 
 class HomePage extends StatefulWidget {
     const HomePage({super.key});
@@ -64,7 +68,10 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                                 icon: const Icon(Icons.edit),
                                 onPressed: () {
-                                // abrir tela de edição
+                                    Get.to(() => EditTaskPage(
+                                        taskController: taskController,
+                                        task: task,
+                                    ));
                                 },
                             ),
                             IconButton(
@@ -79,10 +86,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-                taskController.addTask(
-                    'Tarefa de Teste',
-                    'Criada automaticamente para testar o botão.',
-                );
+                Get.to(() => AddTaskPage(taskController: taskController));
             },
             child: const Icon(Icons.add),
         ),

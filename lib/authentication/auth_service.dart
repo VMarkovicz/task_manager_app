@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:task_manager_app/home_page.dart';
+import 'package:task_manager_app/pages/home_page.dart';
 
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
@@ -35,17 +35,37 @@ class AuthController extends GetxController {
         });
         firebaseUser.value = FirebaseAuth.instance.currentUser;
 
-        Get.snackbar('Sucesso', 'Cadastro realizado com sucesso!');
+        Get.snackbar(   
+            'Sucesso', 
+            'Cadastro realizado com sucesso!',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
+        );
 
         Get.off(() => HomePage()); 
     } on FirebaseAuthException catch (e) {
     if (e.code == 'email-already-in-use') {
-      Get.snackbar('Erro', 'Este email já está em uso por outro usuário.');
+      Get.snackbar(
+            'Erro', 
+            'Este email já está em uso por outro usuário.',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
+        );
     } else {
-      Get.snackbar('Erro', 'Falha no cadastro: ${e.message}');
+      Get.snackbar(
+            'Erro', 
+            'Falha no cadastro: ${e.message}',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
+        );
     }
   } catch (e) {
-    Get.snackbar('Erro', 'Erro inesperado: $e');
+    Get.snackbar(
+            'Erro', 
+            'Erro inesperado: $e',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
+        );
   }
   }
 
@@ -53,11 +73,21 @@ class AuthController extends GetxController {
   Future<void> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      Get.snackbar('Sucesso', 'Login realizado!');
+      Get.snackbar(
+            'Sucesso', 
+            'Login realizado!',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
+        );
 
       Get.off(() => HomePage()); 
     } catch (e) {
-      Get.snackbar('Erro no login', e.toString());
+      Get.snackbar(
+            'Erro no login', 
+            e.toString(),
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
+        );
     }
   }
 
