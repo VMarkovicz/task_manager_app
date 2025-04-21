@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:task_manager_app/pages/home_page.dart';
+import 'package:task_manager_app/pages/login_page.dart';
 
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
@@ -94,5 +95,6 @@ class AuthController extends GetxController {
   // Logout
   Future<void> logout() async {
     await _auth.signOut();
+    Get.offAll(LoginPage()); 
   }
 }

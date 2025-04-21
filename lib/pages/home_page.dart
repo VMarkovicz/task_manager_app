@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:task_manager_app/authentication/auth_service.dart';
 import 'package:task_manager_app/pages/add_task_page.dart';
 import 'package:task_manager_app/pages/edit_task_page.dart';
 import 'package:task_manager_app/task_management/task_controller.dart';
@@ -14,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+    bool toggleFavorite = false;
+
     @override
     void initState() {
         super.initState();
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     Widget build(BuildContext context) {
         final taskController = Provider.of<TaskController>(context);
         final tasks = taskController.tasks;
+        final favouriteTasks = taskController.favouriteTasks;
 
         return Scaffold(
         appBar: AppBar(
@@ -38,9 +41,9 @@ class _HomePageState extends State<HomePage> {
             ),
         ),
         body: ListView.builder(
-            itemCount: tasks.length,
+            itemCount: toggleFavorite ? favouriteTasks.length : tasks.length,
             itemBuilder: (_, index) {
-            final task = tasks[index];
+            final task = toggleFavorite ? favouriteTasks[index] : tasks[index];
             return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -76,7 +79,28 @@ class _HomePageState extends State<HomePage> {
                             ),
                             IconButton(
                                 icon: const Icon(Icons.delete),
-                                onPressed: () => taskController.deleteTask(task.id!),
+                                onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                        title: Text('Confirm delete'),
+                                        content: Text('Are you sure you want to delete this task?'),
+                                        actions: [
+                                                TextButton(
+                                                child: Text('Cancel'),
+                                                onPressed: () => Get.back(),
+                                                ),
+                                                TextButton(
+                                                child: Text('Confirm'),
+                                                onPressed: () {
+                                                    Get.back(); 
+                                                    taskController.deleteTask(task.id!);
+                                                },
+                                                ),
+                                            ],
+                                        ),
+                                    );
+                                },
                             ),
                         ],
                     ),
@@ -84,11 +108,55 @@ class _HomePageState extends State<HomePage> {
             );
             },
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-                Get.to(() => AddTaskPage(taskController: taskController));
-            },
-            child: const Icon(Icons.add),
+        bottomNavigationBar: BottomAppBar(
+            child: SizedBox(
+                height: 50,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        IconButton(
+                            icon: toggleFavorite ? Icon(Icons.star) : Icon(Icons.star_border),
+                            onPressed: () {
+                                setState(() {
+                                    toggleFavorite = !toggleFavorite;
+                                });
+                            },
+                        ),
+                        IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                                Get.to(() => AddTaskPage(taskController: taskController));
+                            },
+                        ),
+                        IconButton(
+                            icon: Icon(Icons.logout),
+                            onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                    title: Text('Confirm logout'),
+                                    content: Text('Are you sure you want to logout?'),
+                                    actions: [
+                                            TextButton(
+                                            child: Text('Cancel'),
+                                            onPressed: () => Get.back(),
+                                            ),
+                                            TextButton(
+                                            child: Text('Logout'),
+                                            onPressed: () {
+                                                Get.back(); 
+                                                AuthController.to.logout();
+                                            },
+                                            ),
+                                        ],
+                                    ),
+                                );
+                            },
+                        ),
+                    ],
+                ),
+            ),
+            
         ),
         );
     }

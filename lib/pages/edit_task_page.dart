@@ -44,7 +44,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
                         TextField(
                             controller: _descriptionController,
                             decoration: InputDecoration(labelText: widget.task.description ?? "Description (optional)"),
-                            obscureText: true,
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(

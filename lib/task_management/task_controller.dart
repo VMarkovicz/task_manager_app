@@ -9,6 +9,8 @@ class TaskController extends ChangeNotifier {
 
     List<TaskModel> get tasks => _tasks;
 
+    List<TaskModel> get favouriteTasks => _tasks.where((task) => task.isFavorite).toList();
+
     Future<void> fetchTasks() async {
         final user = FirebaseAuth.instance.currentUser;
         if (user == null) return;

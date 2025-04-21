@@ -42,7 +42,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         TextField(
                             controller: _descriptionController,
                             decoration: InputDecoration(labelText: 'Description (optional)'),
-                            obscureText: true,
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(
