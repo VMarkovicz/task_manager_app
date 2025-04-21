@@ -56,11 +56,11 @@ class _HomePageState extends State<HomePage> {
                                 child: Text(task.title)
                             ),
                             content: Center(
-                                child: Text(task.description ?? "Sem descrição")
+                                child: Text(task.description ?? "No description")
                             ),
                             actions: [
                                 TextButton(
-                                    child: Text('Fechar'),
+                                    child: Text('Close'),
                                     onPressed: () => Navigator.of(context).pop(),
                                 ),
                             ],

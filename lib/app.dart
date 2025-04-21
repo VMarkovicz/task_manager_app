@@ -11,6 +11,19 @@ class App extends StatelessWidget {
             theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
+            darkTheme: ThemeData.dark().copyWith(
+                appBarTheme: const AppBarTheme(
+                    backgroundColor: Colors.black,  // cor de fundo
+                    foregroundColor: Colors.white,  // cor dos ícones e título
+                    elevation: 0,
+                ),
+                scaffoldBackgroundColor: Colors.black, // fundo da tela
+                cardColor: Colors.grey[900],           // cards escuros
+                textTheme: TextTheme(
+                    bodyMedium: TextStyle(color: Colors.white), // texto padrão
+                ),
+            ),
+            themeMode: ThemeMode.system,
             home: LoginPage(),
             debugShowCheckedModeBanner: false,
         );
