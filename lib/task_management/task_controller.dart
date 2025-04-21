@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'task_model.dart';
 
-class TaskController extends ChangeNotifier {
+class TaskController extends GetxController {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     final List<TaskModel> _tasks = [];
 
@@ -25,7 +26,7 @@ class TaskController extends ChangeNotifier {
         _tasks.addAll(snapshot.docs.map((doc) {
             return TaskModel.fromMap(doc.data(), doc.id);
         }));
-        notifyListeners();
+        update();
     }
 
     Future<void> addTask(String title, String? description) async {
@@ -41,7 +42,7 @@ class TaskController extends ChangeNotifier {
         final doc = await _firestore.collection('tasks').add(task.toMap());
         task.id = doc.id;
         _tasks.add(task);
-        notifyListeners();
+        update();
     }
 
     Future<void> updateTaskById(String taskId, String newTitle, String? newDescription) async {
@@ -57,26 +58,26 @@ class TaskController extends ChangeNotifier {
             'description': newDescription,
         });
 
-        notifyListeners();
+        update();
     }
 
     Future<void> toggleDone(String id) async {
         final task = _tasks.firstWhere((t) => t.id == id);
         task.isDone = !task.isDone;
         await _firestore.collection('tasks').doc(id).update({'isDone': task.isDone});
-        notifyListeners();
+        update();
     }
 
     Future<void> toggleFavorite(String id) async {
         final task = _tasks.firstWhere((t) => t.id == id);
         task.isFavorite = !task.isFavorite;
         await _firestore.collection('tasks').doc(id).update({'isFavorite': task.isFavorite});
-        notifyListeners();
+        update();
     }
 
     Future<void> deleteTask(String id) async {
         _tasks.removeWhere((t) => t.id == id);
         await _firestore.collection('tasks').doc(id).delete();
-        notifyListeners();
+        update();
     }
 }

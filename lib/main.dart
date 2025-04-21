@@ -15,11 +15,13 @@ void main() async{
         options: DefaultFirebaseOptions.currentPlatform,
     );
     Get.put(AuthController());
+    Get.put(TaskController());
+    runApp(App());
 
-    runApp(
-        ChangeNotifierProvider(
-            create: (context) => TaskController()..fetchTasks(),
-            child: const App(),
-        ),
-    );
+    // runApp(
+    //     ChangeNotifierProvider(
+    //         create: (context) => TaskController()..fetchTasks(),
+    //         child: const App(),
+    //     ),
+    // );
 }
